@@ -36,4 +36,4 @@ RUN mix local.hex --force && \
 
 RUN mix do compile
 
-CMD mix deps.get && cd assets && npm install && cd .. && mix phx.server
+CMD mix deps.get && cd assets && npm install && npm rebuild node-sass && cd .. && mix phx.server
