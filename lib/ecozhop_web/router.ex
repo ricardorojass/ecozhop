@@ -20,9 +20,11 @@ defmodule EcozhopWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", EcozhopWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", EcozhopWeb do
+    pipe_through :api
+
+    resources "/users", UserController, only: [:create]
+  end
 
   # Enables LiveDashboard only for development
   #

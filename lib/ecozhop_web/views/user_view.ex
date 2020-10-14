@@ -10,10 +10,10 @@ defmodule EcozhopWeb.UserView do
     %{data: render_one(user, UserView, "user.json")}
   end
 
-  def render("user.json", %{user: user}) do
-    %{id: user.id,
-      name: user.name,
+  def render("user.json", %{user: user, token: token}) do
+    %{
       email: user.email,
-      encrypted_password: user.encrypted_password}
+      token: token
+    }
   end
 end
