@@ -47,7 +47,6 @@ defmodule Ecozhop.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:guardian, "~> 1.0"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:ja_serializer, "~> 0.16"}
     ]
   end
 

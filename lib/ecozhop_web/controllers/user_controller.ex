@@ -17,7 +17,7 @@ defmodule EcozhopWeb.UserController do
     {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
       conn
       |> put_status(:created)
-      |> render("user.json-api", data: user, token: token)
+      |> render("user.json", data: user, token: token)
     end
   end
 

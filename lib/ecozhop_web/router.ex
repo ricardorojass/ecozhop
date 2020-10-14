@@ -13,11 +13,6 @@ defmodule EcozhopWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :json_api do
-    plug :accepts, ["json-api"]
-    plug JaSerializer.Deserializer
-  end
-
   scope "/", EcozhopWeb do
     pipe_through :browser
 
@@ -26,7 +21,7 @@ defmodule EcozhopWeb.Router do
 
   # Other scopes may use custom stacks.
   scope "/api", EcozhopWeb do
-    pipe_through :json_api
+    pipe_through :api
 
     resources "/users", UserController, only: [:create]
   end
