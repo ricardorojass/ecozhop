@@ -25,6 +25,17 @@ defmodule EcozhopWeb.Auth.Guardian do
     end
   end
 
+  def authenticate_admin(email, password) do
+    with {:ok, admin} <- Accounts.get_admin_by_email(email) do
+      case validate_password(password, admin.password_hash) do
+        true ->
+          create_token(admin)
+        false ->
+          {:error, :unauthorized}
+      end
+    end
+  end
+
   defp validate_password(password, password_hash) do
     Pbkdf2.verify_pass(password, password_hash)
   end
