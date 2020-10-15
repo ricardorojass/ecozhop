@@ -29,6 +29,7 @@ defmodule EcozhopWeb.Router do
 
     post "/users/signup", UserController, :signup
     post "/users/signin", UserController, :signin
+    post "/admin/signin", AdminController, :signin
   end
 
   # Enables LiveDashboard only for development
