@@ -13,6 +13,10 @@ defmodule EcozhopWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug EcozhopWeb.Auth.Pipeline
+  end
+
   scope "/", EcozhopWeb do
     pipe_through :browser
 
@@ -23,7 +27,8 @@ defmodule EcozhopWeb.Router do
   scope "/api", EcozhopWeb do
     pipe_through :api
 
-    resources "/users", UserController, only: [:create]
+    post "/users/signup", UserController, :signup
+    post "/users/signin", UserController, :signin
   end
 
   # Enables LiveDashboard only for development

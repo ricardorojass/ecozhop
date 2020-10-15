@@ -13,4 +13,24 @@ defmodule EcozhopWeb.Auth.Guardian do
     resource = Accounts.get_user!(id)
     {:ok,  resource}
   end
+
+  def authenticate(email, password) do
+    with {:ok, user} <- Accounts.get_by_email(email) do
+      case validate_password(password, user.password_hash) do
+        true ->
+          create_token(user)
+        false ->
+          {:error, :unauthorized}
+      end
+    end
+  end
+
+  defp validate_password(password, password_hash) do
+    Pbkdf2.verify_pass(password, password_hash)
+  end
+
+  defp create_token(user) do
+    {:ok, token, _claims} = encode_and_sign(user)
+    {:ok, user, token}
+  end
 end
