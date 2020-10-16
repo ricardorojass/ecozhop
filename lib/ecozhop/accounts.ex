@@ -139,7 +139,11 @@ defmodule Ecozhop.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_admin!(id), do: Repo.get!(Admin, id)
+  def get_admin!(id) do
+    Admin
+    |> Repo.get!(id)
+    |> Repo.preload(:products)
+  end
 
   def get_admin_by_email(email) do
     case Repo.get_by(Admin, email: email) do
@@ -166,6 +170,10 @@ defmodule Ecozhop.Accounts do
     %Admin{}
     |> Admin.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, %Admin{} = admin} -> {:ok, Repo.preload(admin, :products)}
+      error -> error
+    end
   end
 
   @doc """

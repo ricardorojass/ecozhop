@@ -2,11 +2,14 @@ defmodule Ecozhop.Accounts.Admin do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Ecozhop.Shopping.Product
+
   schema "admins" do
     field :email, :string
     field :name, :string
     field :password_hash, :string
     field :password, :string, virtual: true
+    has_many(:products, Product, on_replace: :delete)
 
     timestamps()
   end
@@ -15,6 +18,7 @@ defmodule Ecozhop.Accounts.Admin do
   def changeset(admin, attrs) do
     admin
     |> cast(attrs, [:name, :email, :password])
+    |> cast_assoc(:products)
     |> validate_required([:name, :email, :password])
     |> unique_constraint(:email)
     |> put_pass_hash
