@@ -16,7 +16,7 @@ defmodule EcozhopWeb.AdminController do
     with {:ok, admin, token} <- Guardian.authenticate_admin(email, password) do
       conn
       |> put_status(:created)
-      |> render("admin.json", admin: admin, token: token)
+      |> render("admin_with_token.json", admin: admin, token: token)
     end
   end
 

@@ -7,10 +7,10 @@ defmodule EcozhopWeb.AdminView do
   end
 
   def render("show.json", %{admin: admin}) do
-    %{data: render_one(admin, AdminView, "admin.json")}
+    %{data: render_one(admin, AdminView, "admin_with_token.json")}
   end
 
-  def render("admin.json", %{admin: admin, token: token}) do
+  def render("admin_with_token.json", %{admin: admin, token: token}) do
     %{ name: admin.name, email: admin.email, token: token }
   end
 end

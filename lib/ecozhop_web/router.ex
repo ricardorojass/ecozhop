@@ -30,6 +30,13 @@ defmodule EcozhopWeb.Router do
     post "/users/signup", UserController, :signup
     post "/users/signin", UserController, :signin
     post "/admin/signin", AdminController, :signin
+    resources "/admin/products", ProductController, only: [:create]
+  end
+
+  scope "/api", EcozhopWeb do
+    pipe_through [:api, :auth]
+
+    # TODO use secure endpoints here (Products)
   end
 
   # Enables LiveDashboard only for development
