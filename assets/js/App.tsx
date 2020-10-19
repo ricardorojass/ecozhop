@@ -1,30 +1,30 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom"
 
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-
-const useStyles = makeStyles(theme => ({
-
-  root: {
-    flexGrow: 1,
-    height: '100vh'
-  }
-}))
-
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Header from './components/Header'
 
 const App = () => {
-  const classes = useStyles()
 
   return (
-    <div className={classes.root}>
-      <Grid container className="classes.root">
-        <Grid item xs={12}>
-          <h1>Welcome to my app with Typescript and React!</h1>
-          <p>Peace-of-mind from prototype to production</p>
-        </Grid>
-      </Grid>
+    <React.Fragment>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+        </Switch>
 
-    </div>
-  );
+      </Router>
+
+    </React.Fragment>
+  )
 };
 export default App;
