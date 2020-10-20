@@ -33,7 +33,7 @@ defmodule EcozhopWeb.Router do
   end
 
   scope "/api", EcozhopWeb do
-    pipe_through [:api, :auth]
+    pipe_through [:api]
 
     resources "/admin/products", ProductController, only: [:index, :create]
   end

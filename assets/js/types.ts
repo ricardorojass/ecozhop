@@ -14,3 +14,13 @@ export interface User {
   token?: string
   loaded?: boolean
 }
+
+export interface Product {
+  id?: number
+  name?: string
+  description?: string
+  price?: number
+  brand?: string
+  rating?: number
+  admin_id?: number
+}
