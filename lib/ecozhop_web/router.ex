@@ -37,7 +37,15 @@ defmodule EcozhopWeb.Router do
   scope "/api", EcozhopWeb do
     pipe_through [:api, :auth]
 
+    get "/users/me", UserController, :getUser
+    get "/users", UserController, :index
     resources "/admin/products", ProductController, only: [:create]
+  end
+
+  scope "/", EcozhopWeb do
+    pipe_through :browser
+    match :*, "/api/*path", Api, :missing_route
+    get "/*path", PageController, :index
   end
 
   # Enables LiveDashboard only for development
