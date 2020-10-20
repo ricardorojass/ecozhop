@@ -29,13 +29,15 @@ defmodule EcozhopWeb.Router do
 
     post "/users/signup", UserController, :signup
     post "/users/signin", UserController, :signin
+    # TODO create /users/me route
     post "/admin/signin", AdminController, :signin
+    resources "/admin/products", ProductController, only: [:index]
   end
 
   scope "/api", EcozhopWeb do
-    pipe_through [:api]
+    pipe_through [:api, :auth]
 
-    resources "/admin/products", ProductController, only: [:index, :create]
+    resources "/admin/products", ProductController, only: [:create]
   end
 
   # Enables LiveDashboard only for development

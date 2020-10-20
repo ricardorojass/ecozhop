@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import authService from '../services/auth'
+import { User } from '../types'
 
 const SearchBar = () => {
+  const history = useHistory()
+
+  const [authenticated, setAuthenticated] = useState(false)
+
+  useEffect(() => {
+    authService.subscribe((_: User) => {
+      setAuthenticated(authService.isAuthenticated())
+      console.log(authenticated);
+
+    })
+  })
+
+  function onClick() {
+    history.push('/login')
+  }
 
   return (
     <div id="navigation-bar">
@@ -15,7 +33,7 @@ const SearchBar = () => {
               </div>
             </div>
             <div className="flex flex-grow min-w-0 lg:w-3/4 xl:w-4/5">
-              <div className="w-full min-w-0 lg:px-6 xl:w-3/4 xl:px-12">
+              <div className="w-3/5 min-w-0 lg:px-6 xl:w-3/4 xl:px-12">
                 <div className="relative">
                   <form>
                     <label>
@@ -30,7 +48,9 @@ const SearchBar = () => {
               </div>
               <div className="hidden lg:flex lg:items-center lg:justify-between xl:w-1/4 px-6">
                 <div className="relative mr-4">
-                  <div className="flex justify-start items-center text-gray-500">
+                  <div className="flex justify-start items-center text-white">
+                    { authenticated ? <a href="#" onClick={e => onClick()}>Logout</a> : <a href="#" onClick={e => onClick()}>Sign in</a>  }
+
                     <a className="block flex items-center hover:text-gray-700 mr-5" href="">
                       {/* Cart icon */}
                     </a>

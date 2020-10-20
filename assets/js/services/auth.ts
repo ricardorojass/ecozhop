@@ -3,8 +3,8 @@ import axios from '../axios'
 import { User } from '../types'
 
 const USER_URI = '/me'
-const SIGNUP_URI = '/signup'
-const LOGIN_URI = '/login'
+const SIGNUP_URI = '/users/signup'
+const LOGIN_URI = '/users/signin'
 
 function getNullUser() {
   return { firstName: null, lastName: null, email: null, token: null, loaded: false }
