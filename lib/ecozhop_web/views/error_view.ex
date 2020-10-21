@@ -6,6 +6,9 @@ defmodule EcozhopWeb.ErrorView do
   # def render("500.html", _assigns) do
   #   "Internal Server Error"
   # end
+  def render("401.json", %{message: message}) do
+    %{errors: %{detail: message}}
+  end
 
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.html" becomes

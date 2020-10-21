@@ -11,7 +11,7 @@ const SearchBar = () => {
   useEffect(() => {
     authService.subscribe((_: User) => {
       setAuthenticated(authService.isAuthenticated())
-      console.log(authenticated);
+      console.log(authenticated)
 
     })
   })

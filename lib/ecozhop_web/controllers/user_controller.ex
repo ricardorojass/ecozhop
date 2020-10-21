@@ -25,13 +25,18 @@ defmodule EcozhopWeb.UserController do
     with {:ok, user, token} <- Guardian.authenticate(email, password) do
       conn
       |> put_status(:created)
-      |> render("user.json", data: user, token: token)
+      |> render(EcozhopWeb.UserView, "user.json", data: user, token: token)
     end
   end
 
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
     render(conn, "show.json", user: user)
+  end
+
+  def getUser(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    conn |> render(EcozhopWeb.UserView, "me.json", user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

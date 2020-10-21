@@ -2,7 +2,7 @@ import Store from '../store'
 import axios from '../axios'
 import { User } from '../types'
 
-const USER_URI = '/me'
+const USER_URI = '/users/me'
 const SIGNUP_URI = '/users/signup'
 const LOGIN_URI = '/users/signin'
 
@@ -13,6 +13,8 @@ function getNullUser() {
 class AuthService extends Store<User> {
   async loadUser() {
     const token = localStorage.getItem("token")
+    console.log('token', token);
+
     if (token) {
       try {
         await this._doLoadUser(token)
@@ -28,6 +30,8 @@ class AuthService extends Store<User> {
 
   async _doLoadUser(token: string) {
     const response = await axios.get(USER_URI)
+    console.log('auth, _doLoadUser ', response.data);
+
     const { name, email } = response.data
     this.setState({ name, email, token, loaded: true })
   }

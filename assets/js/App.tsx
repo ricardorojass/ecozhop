@@ -22,6 +22,8 @@ const App = () => {
     })
 
     async function load() {
+      console.log('load');
+
       await authService.loadUser()
     }
     load()

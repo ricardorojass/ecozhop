@@ -14,4 +14,12 @@ defmodule EcozhopWeb.UserView do
     %{ name: user.name, email: user.email, token: token }
   end
 
+  def render("me.json", %{user: user}) do
+    %{ name: user.name, email: user.email }
+  end
+
+  def render("jwt.json", %{jwt: jwt}) do
+    %{ jwt: jwt }
+  end
+
 end
