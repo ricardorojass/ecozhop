@@ -19,12 +19,10 @@ const SigingPage = () => {
   async function login(e) {
     e.preventDefault()
     try {
-      console.log(data);
-
       const { email, password } = data
       setErrors({})
       await authService.login(email, password)
-      history.push('/products')
+      history.push('/')
     } catch (e) {
       console.log(e)
       if (e.response && e.response.status == 401) {
