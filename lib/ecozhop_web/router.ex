@@ -11,16 +11,11 @@ defmodule EcozhopWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   pipeline :auth do
     plug EcozhopWeb.Auth.Pipeline
-  end
-
-  scope "/", EcozhopWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -30,13 +25,23 @@ defmodule EcozhopWeb.Router do
     post "/users/signup", UserController, :signup
     post "/users/signin", UserController, :signin
     post "/admin/signin", AdminController, :signin
-    resources "/admin/products", ProductController, only: [:create]
+    resources "/admin/products", ProductController, only: [:index]
   end
 
   scope "/api", EcozhopWeb do
     pipe_through [:api, :auth]
 
-    # TODO use secure endpoints here (Products)
+    get "/users/me", UserController, :getUser
+    get "/users", UserController, :index
+    resources "/admin/products", ProductController, only: [:create]
+
+    post "/cart", CartItemController, :create
+  end
+
+  scope "/", EcozhopWeb do
+    pipe_through :browser
+    match :*, "/api/*path", Api, :missing_route
+    get "/*path", PageController, :index
   end
 
   # Enables LiveDashboard only for development
@@ -46,12 +51,12 @@ defmodule EcozhopWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
+  # if Mix.env() in [:dev, :test] do
+  #   import Phoenix.LiveDashboard.Router
 
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: EcozhopWeb.Telemetry
-    end
-  end
+  #   scope "/" do
+  #     pipe_through :browser
+  #     live_dashboard "/dashboard", metrics: EcozhopWeb.Telemetry
+  #   end
+  # end
 end
