@@ -1,6 +1,7 @@
 defmodule Ecozhop.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Ecozhop.Shopping.CartItem
 
   @derive {Jason.Encoder, only: [:name, :email]}
   schema "users" do
@@ -8,6 +9,7 @@ defmodule Ecozhop.Accounts.User do
     field :email, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    has_many(:cart_items, CartItem, on_replace: :delete)
 
     timestamps()
   end

@@ -3,6 +3,10 @@ defmodule Ecozhop.Shopping.Product do
   import Ecto.Changeset
 
   alias Ecozhop.Accounts.Admin
+  alias Ecozhop.Shopping.CartItem
+  alias Ecozhop.Shopping.Image
+  alias Ecozhop.Shopping.Category
+  alias Ecozhop.Shopping.CategoryProduct
 
   schema "products" do
     field :brand, :string
@@ -11,6 +15,10 @@ defmodule Ecozhop.Shopping.Product do
     field :price, :integer
     field :rating, :integer
     belongs_to :admin, Admin
+    has_many :cart_items, CartItem
+    has_many(:images, Image, on_replace: :delete)
+    has_many(:categories, Category, on_replace: :delete)
+    has_many(:categories_products, CategoryProduct, on_replace: :delete)
 
     timestamps()
   end
@@ -20,6 +28,5 @@ defmodule Ecozhop.Shopping.Product do
     product
     |> cast(attrs, [:name, :description, :price, :brand, :rating])
     |> validate_required([:name])
-    |> assoc_constraint(:admin)
   end
 end

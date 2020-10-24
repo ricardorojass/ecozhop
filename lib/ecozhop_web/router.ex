@@ -34,6 +34,8 @@ defmodule EcozhopWeb.Router do
     get "/users/me", UserController, :getUser
     get "/users", UserController, :index
     resources "/admin/products", ProductController, only: [:create]
+
+    post "/cart", CartItemController, :create
   end
 
   scope "/", EcozhopWeb do
