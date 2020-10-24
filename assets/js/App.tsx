@@ -10,27 +10,14 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Header from './components/Header'
 import authService from './services/auth'
-import { User } from './types'
-
 
 const App = () => {
-  const [ authenticated, setAuthenticated ] = useState(false)
 
   useEffect(() => {
-    authService.subscribe((_: User) => {
-      setAuthenticated( authService.isAuthenticated() )
-    })
-
     async function load() {
-      console.log('load');
-
       await authService.loadUser()
     }
     load()
-
-    return () => {
-      authService.unsubscribe(load)
-    }
   }, [])
 
   return (

@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import authService from '../services/auth'
+import { useStore } from '../hooks'
 import { User } from '../types'
 
 const SearchBar = () => {
   const history = useHistory()
 
-  const [authenticated, setAuthenticated] = useState(false)
+  const user = useStore<User>(authService)
 
-  useEffect(() => {
-    authService.subscribe((_: User) => {
-      setAuthenticated(authService.isAuthenticated())
-      console.log(authenticated)
-
-    })
-  })
-
-  function onClick() {
+  function redirectToLogin() {
     history.push('/login')
+  }
+
+  function logout() {
+    console.log('logout');
+
+    authService.logout()
+    history.push('/')
   }
 
   return (
@@ -49,7 +49,9 @@ const SearchBar = () => {
               <div className="hidden lg:flex lg:items-center lg:justify-between xl:w-1/4 px-6">
                 <div className="relative mr-4">
                   <div className="flex justify-start items-center text-white">
-                    { authenticated ? <a href="#" onClick={e => onClick()}>Logout</a> : <a href="#" onClick={e => onClick()}>Sign in</a>  }
+                    { authService.isAuthenticated() ?
+                        <a href="#" onClick={e => logout()}>Logout</a> :
+                        <a href="#" onClick={e => redirectToLogin()}>Sign in</a> }
 
                     <div className="ml-4">
                       <svg className="h-6 w-6 fill-current text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

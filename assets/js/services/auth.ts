@@ -13,13 +13,13 @@ function getNullUser() {
 class AuthService extends Store<User> {
   async loadUser() {
     const token = localStorage.getItem("token")
-    console.log('token', token);
 
     if (token) {
+      console.log('token', token)
       try {
         await this._doLoadUser(token)
       } catch (e) {
-        console.log(e)
+        console.log('error -> ', e)
         localStorage.removeItem("token")
         this.setState({ token: null, loaded: true })
       }
@@ -30,8 +30,6 @@ class AuthService extends Store<User> {
 
   async _doLoadUser(token: string) {
     const response = await axios.get(USER_URI)
-    console.log('auth, _doLoadUser ', response.data);
-
     const { name, email } = response.data
     this.setState({ name, email, token, loaded: true })
   }
