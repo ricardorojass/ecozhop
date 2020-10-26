@@ -35,8 +35,9 @@ defmodule Ecozhop.Shopping do
 
   alias Ecozhop.Shopping.CartItem
 
-  def list_cart_items do
-    Repo.all(CartItem)
+  def list_cart_items(%User{} = user) do
+    [user] = Repo.all(from(u in User, where: u.id == ^user.id, preload: :cart_items_products))
+    user.cart_items
   end
 
   def get_cart_item!(id), do: Repo.get!(CartItem, id)

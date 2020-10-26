@@ -24,3 +24,9 @@ export interface Product {
   rating?: number
   admin_id?: number
 }
+
+export interface CartItem {
+  id?: number
+  quantity?: number,
+  product?: Product[]
+}

@@ -1,6 +1,7 @@
 defmodule EcozhopWeb.CartItemView do
   use EcozhopWeb, :view
   alias EcozhopWeb.CartItemView
+  alias EcozhopWeb.ProductView
 
   def render("index.json", %{cart_items: cart_items}) do
     %{data: render_many(cart_items, CartItemView, "cart_item.json")}
@@ -11,7 +12,10 @@ defmodule EcozhopWeb.CartItemView do
   end
 
   def render("cart_item.json", %{cart_item: cart_item}) do
-    %{id: cart_item.id,
-      quantity: cart_item.quantity}
+    %{
+      id: cart_item.id,
+      quantity: cart_item.quantity,
+      product: render_one(cart_item.product, ProductView, "product.json", as: :product)
+    }
   end
 end

@@ -9,7 +9,8 @@ defmodule EcozhopWeb.CartItemController do
   action_fallback EcozhopWeb.FallbackController
 
   def index(conn, _params) do
-    cart_items = Shopping.list_cart_items()
+    current_user = Guardian.Plug.current_resource(conn)
+    cart_items = Shopping.list_cart_items(current_user)
     render(conn, "index.json", cart_items: cart_items)
   end
 
