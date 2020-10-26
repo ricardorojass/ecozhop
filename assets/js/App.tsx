@@ -5,8 +5,10 @@ import {
   Route
 } from "react-router-dom"
 
+import Cart from './pages/Cart'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import UserRoute from './UserRoute'
 import Register from './pages/Register'
 import Header from './components/Header'
 import authService from './services/auth'
@@ -29,6 +31,7 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/home" component={Home} />
+          <UserRoute exact path="/cart" component={Cart} />
         </Switch>
 
       </Router>

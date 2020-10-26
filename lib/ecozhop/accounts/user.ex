@@ -10,7 +10,7 @@ defmodule Ecozhop.Accounts.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     has_many(:cart_items, CartItem, on_replace: :delete)
-
+    has_many(:cart_items_products, through: [:cart_items, :product] )
     timestamps()
   end
 
