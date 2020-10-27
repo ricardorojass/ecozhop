@@ -1,11 +1,22 @@
 use Mix.Config
 
 database_url = System.get_env("DATABASE_URL")
+db_host_name = System.get_env("DB_HOSTNAME")
+db_username = System.get_env("DB_USERNAME")
+db_password = System.get_env("DB_PASSWORD")
+db_name = System.get_env("DB_NAME")
 
 # Configure your database
+# config :ecozhop, Ecozhop.Repo,
+#   url: database_url,
+#   show_sensitive_data_on_connection_error: true,
+#   pool_size: 10
 config :ecozhop, Ecozhop.Repo,
-  url: database_url,
-  show_sensitive_data_on_connection_error: true,
+  adapter: Ecto.Adapters.Postgres,
+  hostname: "localhost",
+  username: "ricardorojas",
+  password: "postgres",
+  database: "ecozhop_dev",
   pool_size: 10
 
 # For development, we disable any cache and enable

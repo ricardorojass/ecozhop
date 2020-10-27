@@ -47,6 +47,7 @@ defmodule Ecozhop.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:guardian, "~> 1.0"},
       {:pbkdf2_elixir, "~> 1.0"},
+      {:distillery, "~> 2.1.0"}
     ]
   end
 
