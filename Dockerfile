@@ -19,21 +19,41 @@ RUN cd assets && npm install
 ########################################
 # 2. Build elixir backend
 ########################################
-FROM bitwalker/alpine-elixir-phoenix:latest
+FROM elixir:1.10-alpine as builder
 
-# install build dependencies
-RUN apk add --update git
+ENV PORT=4000
+ENV MIX_ENV=prod
+COPY lib ./lib
+COPY config ./config
+COPY mix.exs .
+COPY mix.lock .
 
 # prepare build dir
-RUN mkdir /app
-COPY . /app
-WORKDIR /app
+# RUN mkdir /app
+# COPY . /app
+# WORKDIR /app
 
 # install hex + rebar
-RUN mix local.hex --force && \
-    mix local.rebar --force && \
-    mix hex.info
+RUN mix local.rebar --force \
+    && mix local.hex --force \
+    && mix deps.get \
+    && mix release
 
-RUN mix do compile
+# RUN mix do compile
 
-CMD mix deps.get && cd assets && npm install && npm rebuild node-sass && cd .. && mix phx.server
+# CMD cd assets && npm install && npm rebuild node-sass && cd .. && mix phx.server
+
+# 3. Install bash openssl and run app
+FROM alpine:3
+RUN apk add --no-cache --update bash openssl
+
+# EXPOSE 4000
+# ENV PORT=4000 MIX_ENV=prod REPLACE_OS_VARS=true SHELL=/bin/bash
+
+WORKDIR /app
+COPY --from=builder _build/prod/rel/ecozhop/ .
+COPY --from=build-node /app/assets/ .
+
+CMD ["/app/bin/ecozhop", "start"]
+# CMD ["/bin/echo", "${PORT}"]
+# CMD echo "Hello world, ${PORT}"

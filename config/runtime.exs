@@ -1,11 +1,11 @@
-use Mix.Config
+import Config
 
 config :ecozhop, EcozhopWeb.Endpoint,
-http: [port: System.get_env("PORT")],
-url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
-secret_key_base: "${SECRET_KEY_BASE}",
-server: true,
-root: "."
+  http: [port: System.get_env("PORT")],
+  url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  server: true,
+  root: "."
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -14,9 +14,9 @@ config :logger, level: :info
 config :ecozhop, Ecozhop.Repo,
   adapter: Ecto.Adapters.Postgres,
   hostname: System.get_env("DB_HOSTNAME"),
-  username: "${DB_USERNAME}",
-  password: "${DB_PASSWORD}",
-  database: "${DB_NAME}",
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  database: System.get_env("DB_NAME"),
   pool_size: 20
 # ## SSL Support
 #
