@@ -19,21 +19,31 @@ RUN cd assets && npm install
 ########################################
 # 2. Build elixir backend
 ########################################
-FROM bitwalker/alpine-elixir-phoenix:latest
+FROM elixir:1.10-alpine as builder
 
-# install build dependencies
 RUN apk add --update git
 
-# prepare build dir
-RUN mkdir /app
-COPY . /app
 WORKDIR /app
 
+ENV PORT=4000
+ENV MIX_ENV=prod
+COPY lib ./lib
+COPY config ./config
+COPY mix.exs .
+COPY mix.lock .
+
+
 # install hex + rebar
-RUN mix local.hex --force && \
-    mix local.rebar --force && \
-    mix hex.info
+RUN mix local.rebar --force \
+    && mix local.hex --force \
+    && mix deps.get \
+    && mix phx.digest \
+    && mix release
 
-RUN mix do compile
+# RUN apk add --no-cache bash openssl
+# CMD cd assets && npm install && npm rebuild node-sass && cd .. && mix phx.server
 
-CMD mix deps.get && cd assets && npm install && npm rebuild node-sass && cd .. && mix phx.server
+# COPY _build/prod/rel/ecozhop/ .
+# COPY --from=build-node /app/priv/static /app/priv/static
+ENTRYPOINT ["_build/prod/rel/ecozhop/bin/ecozhop"]
+CMD ["start"]

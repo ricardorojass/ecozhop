@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecozhop-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ecozhop-deployment
+  template:
+    metadata:
+      labels:
+        app: ecozhop-deployment
+    spec:
+      containers:
+        - name: ecozhop-deployment
+          image: reddrum7/ecozhopweb
+          ports:
+            - containerPort: 8000
+          env:
+            - name: HOST
+              value: "example.com"
+            - name: SECRET_KEY_BASE
+              value: "XcVlDNXCrLjfZR1pzVu9Jv0PjFLe5Kij5G1VP9YhKnxSBUvK3cSEQSLFpzuYYZdP"
+            - name: DB_USERNAME
+              value: "ricardorojas"
+            - name: DB_PASSWORD
+              value: "postgres"
+            - name: DB_NAME
+              value: "ecozhop_dev"
+            - name: DB_HOSTNAME
+              value: "postgres"
+            - name: PORT
+              value: "8000"
