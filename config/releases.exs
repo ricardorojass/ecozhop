@@ -1,4 +1,8 @@
 import Config
+require Logger
+
+Logger.info  "Logging this text!"
+Logger.info  System.get_env("PORT")
 
 config :ecozhop, EcozhopWeb.Endpoint,
   http: [port: System.get_env("PORT")],
